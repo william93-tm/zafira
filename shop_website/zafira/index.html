@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zafira — Maison de Luxe</title>
+  <meta name="description" content="Zafira, maison de luxe inspirée par l'élégance africaine contemporaine." />
+  <style>
+    :root {
+      --bg: #f7f2ea;
+      --soft: #efe7db;
+      --white: #ffffff;
+      --black: #111111;
+      --text: #1a1a1a;
+      --muted: #6c655d;
+      --gold: #b89146;
+      --line: #ddd2c2;
+      --shadow: 0 15px 40px rgba(0,0,0,0.08);
+      --radius: 24px;
+      --container: 1180px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: Arial, Helvetica, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+    img { max-width: 100%; display: block; }
+    a { text-decoration: none; color: inherit; }
+    button, input, textarea { font: inherit; }
+
+    .container { width: min(var(--container), 92%); margin: 0 auto; }
+    .section { padding: 90px 0; }
+    .soft { background: var(--soft); }
+    .dark { background: var(--black); color: var(--white); }
+
+    .eyebrow {
+      display: inline-block;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+
+    h1, h2, h3 { font-family: Georgia, "Times New Roman", serif; }
+    h1 { font-size: clamp(3rem, 7vw, 5.8rem); line-height: 0.95; }
+    h2 { font-size: clamp(2rem, 4vw, 3.4rem); line-height: 1.05; }
+    p { color: var(--muted); }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 52px; padding: 14px 24px; border-radius: 999px;
+      border: 1px solid transparent; cursor: pointer; font-weight: 700; transition: 0.3s;
+    }
+    .btn-primary { background: var(--black); color: var(--white); }
+    .btn-primary:hover { transform: translateY(-2px); }
+    .btn-outline { border-color: var(--black); }
+    .btn-outline:hover { background: var(--black); color: var(--white); }
+    .btn-gold { background: var(--gold); color: var(--white); }
+
+    .site-header {
+      position: sticky; top: 0; z-index: 1000;
+      background: rgba(247,242,234,0.9); backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+    .header-inner {
+      min-height: 88px; display: flex; align-items: center; justify-content: space-between; gap: 20px;
+    }
+    .logo-img { width: 180px; height: auto; }
+
+    .desktop-nav ul { display: flex; list-style: none; gap: 24px; align-items: center; }
+    .desktop-nav a { color: var(--muted); font-size: 0.95rem; }
+    .desktop-nav a:hover { color: var(--text); }
+
+    .menu-toggle {
+      display: none; width: 46px; height: 46px; border-radius: 50%;
+      border: 1px solid rgba(0,0,0,0.08); background: var(--white); cursor: pointer;
+    }
+
+    .mobile-menu {
+      display: none; position: absolute; top: 88px; left: 0; right: 0;
+      background: var(--bg); border-bottom: 1px solid rgba(0,0,0,0.08); padding: 20px 4%;
+    }
+    .mobile-menu.open { display: block; }
+    .mobile-menu a { display: block; padding: 12px 0; color: var(--muted); }
+
+    .hero { padding: 70px 0 90px; }
+    .hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 36px; align-items: center; }
+    .hero-copy p { max-width: 620px; margin: 18px 0 28px; font-size: 1.05rem; }
+    .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 24px; }
+    .hero-points { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.95rem; color: var(--muted); }
+    .hero-points span::before { content: "• "; color: var(--gold); }
+
+    .hero-visual {
+      min-height: 620px; border-radius: 36px; overflow: hidden; position: relative; box-shadow: var(--shadow);
+      background: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.35)), url('images/hero-zafira.jpg') center/cover no-repeat, linear-gradient(135deg, #22160f, #856534);
+    }
+    .hero-box {
+      position: absolute; left: 24px; right: 24px; bottom: 24px;
+      padding: 20px; border-radius: 20px; color: var(--white);
+      background: rgba(255,255,255,0.12); backdrop-filter: blur(10px);
+    }
+
+    .stats {
+      margin-top: -20px; position: relative; z-index: 2;
+    }
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+      background: var(--white); padding: 24px; border-radius: 24px; box-shadow: var(--shadow);
+    }
+    .stat { text-align: center; padding: 16px; background: #fcf8f1; border-radius: 18px; }
+    .stat strong { display: block; font-size: 1.8rem; color: var(--gold); }
+    .stat span { color: var(--muted); font-size: 0.92rem; }
+
+    .section-head {
+      display: flex; justify-content: space-between; gap: 24px; align-items: end; flex-wrap: wrap; margin-bottom: 36px;
+    }
+    .section-head p { max-width: 560px; }
+
+    .story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center; }
+    .story-media {
+      min-height: 520px; border-radius: 30px; box-shadow: var(--shadow);
+      background: linear-gradient(rgba(0,0,0,0.08), rgba(0,0,0,0.18)), url('images/story-zafira.jpg') center/cover no-repeat, linear-gradient(135deg, #1d1814, #7d6033);
+    }
+    .story-copy p { margin-bottom: 16px; }
+    .values { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 24px; }
+    .value {
+      background: var(--white); border-radius: 18px; padding: 18px; box-shadow: var(--shadow);
+    }
+
+    .toolbar { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 26px; }
+    .filters { display: flex; gap: 10px; flex-wrap: wrap; }
+    .filter-btn {
+      padding: 10px 16px; border-radius: 999px; border: 1px solid rgba(0,0,0,0.08);
+      background: var(--white); cursor: pointer; font-weight: 700;
+    }
+    .filter-btn.active, .filter-btn:hover { background: var(--black); color: var(--white); }
+
+    .product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .product-card {
+      background: var(--white); border-radius: 24px; overflow: hidden; box-shadow: var(--shadow);
+      transition: 0.3s; display: flex; flex-direction: column;
+    }
+    .product-card:hover { transform: translateY(-6px); }
+    .product-image { height: 360px; background-size: cover; background-position: center; position: relative; }
+    .img-robe { background-image: url('images/robe-imperiale.jpg'); background-color: #bda27c; }
+    .img-sac { background-image: url('images/sac-heritage.jpg'); background-color: #9d7b50; }
+    .img-set { background-image: url('images/set-prestige.jpg'); background-color: #6f5231; }
+    .img-blazer { background-image: url('images/blazer-noir.jpg'); background-color: #3b3632; }
+    .img-kaftan { background-image: url('images/kaftan-lumiere.jpg'); background-color: #d6bb8b; }
+    .img-minaudiere { background-image: url('images/minaudiere-onyx.jpg'); background-color: #58453b; }
+
+    .badge {
+      position: absolute; top: 16px; left: 16px; padding: 8px 12px;
+      border-radius: 999px; background: rgba(255,255,255,0.92); font-size: 0.75rem; font-weight: 700;
+    }
+    .product-body { padding: 22px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+    .product-top { display: flex; justify-content: space-between; gap: 14px; }
+    .product-top small { color: var(--muted); text-transform: uppercase; letter-spacing: 0.12em; }
+    .product-price { color: var(--gold); font-weight: 700; }
+    .chips { display: flex; gap: 8px; flex-wrap: wrap; }
+    .chip { padding: 7px 10px; border-radius: 999px; background: #f5eee5; color: var(--muted); font-size: 0.8rem; }
+    .product-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: auto; }
+
+    .lookbook-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 24px; }
+    .lookbook-main,
+    .lookbook-side { display: grid; gap: 24px; }
+    .lookbook-card {
+      min-height: 280px; border-radius: 30px; position: relative; overflow: hidden; box-shadow: var(--shadow);
+      background: linear-gradient(rgba(0,0,0,0.08), rgba(0,0,0,0.35)), linear-gradient(135deg, #22160f, #876736);
+    }
+    .lookbook-large { min-height: 600px; background-image: linear-gradient(rgba(0,0,0,0.08), rgba(0,0,0,0.35)), url('images/lookbook-1.jpg'); background-size: cover; background-position: center; }
+    .lookbook-one { background-image: linear-gradient(rgba(0,0,0,0.08), rgba(0,0,0,0.35)), url('images/lookbook-2.jpg'); background-size: cover; background-position: center; }
+    .lookbook-two { background-image: linear-gradient(rgba(0,0,0,0.08), rgba(0,0,0,0.35)), url('images/lookbook-3.jpg'); background-size: cover; background-position: center; }
+    .lookbook-text { position: absolute; left: 22px; right: 22px; bottom: 22px; color: var(--white); }
+
+    .journal-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .journal-card { background: var(--white); border-radius: 24px; overflow: hidden; box-shadow: var(--shadow); }
+    .journal-image { height: 240px; background-size: cover; background-position: center; }
+    .j1 { background-image: url('images/journal-1.jpg'); background-color: #ab8d61; }
+    .j2 { background-image: url('images/journal-2.jpg'); background-color: #8a6748; }
+    .j3 { background-image: url('images/journal-3.jpg'); background-color: #413127; }
+    .journal-body { padding: 22px; }
+    .journal-body p { margin: 12px 0 16px; }
+
+    .services-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+    .service { background: rgba(255,255,255,0.06); border-radius: 22px; padding: 24px; border: 1px solid rgba(255,255,255,0.1); }
+    .service h3 { margin-bottom: 10px; }
+    .service p { color: rgba(255,255,255,0.72); }
+
+    .faq-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 30px; }
+    .faq-intro, .contact-card, .contact-form-wrap {
+      background: var(--white); border-radius: 26px; padding: 28px; box-shadow: var(--shadow);
+    }
+    .faq-list { display: grid; gap: 14px; }
+    .faq-item { background: var(--white); border-radius: 20px; box-shadow: var(--shadow); overflow: hidden; }
+    .faq-question {
+      width: 100%; border: none; background: transparent; text-align: left; cursor: pointer;
+      padding: 20px 22px; display: flex; justify-content: space-between; gap: 14px; font-weight: 700;
+    }
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+    .faq-answer p { padding: 0 22px 20px; }
+
+    .newsletter-box {
+      background: linear-gradient(135deg, rgba(17,17,17,0.95), rgba(58,40,18,0.92)), url('images/newsletter-bg.jpg') center/cover no-repeat;
+      color: var(--white); border-radius: 34px; padding: 42px; box-shadow: var(--shadow);
+    }
+    .newsletter-box p { color: rgba(255,255,255,0.76); margin: 14px 0 20px; }
+    .newsletter-form { display: grid; grid-template-columns: 1fr auto; gap: 12px; }
+    .newsletter-form input {
+      min-height: 56px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.08); color: var(--white); padding: 0 18px;
+    }
+    .newsletter-message, .form-message { min-height: 24px; font-weight: 700; margin-top: 12px; }
+
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .contact-list { display: grid; gap: 14px; margin: 22px 0; }
+    .contact-item { padding: 16px; border-radius: 18px; background: #faf4ec; }
+    .socials { display: flex; gap: 10px; flex-wrap: wrap; }
+    .socials a { padding: 10px 14px; border-radius: 999px; background: #f4ede4; }
+    .contact-form { display: grid; gap: 14px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .input-group { display: grid; gap: 8px; }
+    .input-group input, .input-group textarea {
+      width: 100%; border: 1px solid rgba(0,0,0,0.1); border-radius: 16px; padding: 14px 16px; background: #fcfaf6;
+    }
+    .input-group textarea { min-height: 150px; resize: vertical; }
+
+    .footer { background: #0d0d0d; color: var(--white); padding: 60px 0 26px; }
+    .footer-grid { display: grid; grid-template-columns: 1.2fr 0.8fr 0.8fr 1fr; gap: 24px; margin-bottom: 28px; }
+    .footer p, .footer a { color: rgba(255,255,255,0.68); }
+    .footer-links { display: grid; gap: 10px; }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 18px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+
+    .modal {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: grid; place-items: center;
+      padding: 20px; opacity: 0; visibility: hidden; transition: 0.3s; z-index: 1200;
+    }
+    .modal.show { opacity: 1; visibility: visible; }
+    .modal-card {
+      width: min(900px, 100%); background: var(--white); border-radius: 28px; overflow: hidden; box-shadow: var(--shadow);
+      display: grid; grid-template-columns: 1fr 1fr;
+    }
+    .modal-media { min-height: 320px; background-size: cover; background-position: center; background-color: #876736; }
+    .modal-content { padding: 26px; }
+    .close-modal { width: 42px; height: 42px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.1); background: transparent; cursor: pointer; float: right; }
+
+    .toast {
+      position: fixed; right: 20px; bottom: 20px; background: var(--black); color: var(--white);
+      padding: 14px 18px; border-radius: 14px; box-shadow: var(--shadow); opacity: 0; transform: translateY(14px); transition: 0.3s;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    .reveal { opacity: 0; transform: translateY(20px); transition: 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .hidden { display: none !important; }
+
+    @media (max-width: 1024px) {
+      .desktop-nav, .header-btn { display: none; }
+      .menu-toggle { display: inline-flex; align-items: center; justify-content: center; }
+      .hero-grid, .story-grid, .lookbook-grid, .faq-grid, .contact-grid, .modal-card { grid-template-columns: 1fr; }
+      .stats-grid, .product-grid, .journal-grid, .services-grid, .footer-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 768px) {
+      .section { padding: 72px 0; }
+      .hero { padding: 40px 0 80px; }
+      .logo-img { width: 150px; }
+      .hero-visual { min-height: 380px; }
+      .stats-grid, .product-grid, .journal-grid, .services-grid, .footer-grid, .values, .form-row, .newsletter-form { grid-template-columns: 1fr; }
+      .product-image { height: 300px; }
+      .newsletter-box, .faq-intro, .contact-card, .contact-form-wrap { padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#home" class="logo">
+        <img src="zafira-logo.png" alt="Logo Zafira" class="logo-img" />
+      </a>
+
+      <nav class="desktop-nav">
+        <ul>
+          <li><a href="#home">Accueil</a></li>
+          <li><a href="#maison">Maison</a></li>
+          <li><a href="#collections">Collections</a></li>
+          <li><a href="#lookbook">Lookbook</a></li>
+          <li><a href="#journal">Journal</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div style="display:flex; align-items:center; gap:12px;">
+        <a href="#contact" class="btn btn-gold header-btn">Rendez-vous</a>
+        <button class="menu-toggle" id="menuToggle">☰</button>
+      </div>
+    </div>
+
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#home">Accueil</a>
+      <a href="#maison">Maison</a>
+      <a href="#collections">Collections</a>
+      <a href="#lookbook">Lookbook</a>
+      <a href="#journal">Journal</a>
+      <a href="#services">Services</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div class="hero-copy reveal">
+          <span class="eyebrow">Maison de luxe africaine</span>
+          <h1>Une élégance rare, signée Zafira.</h1>
+          <p>
+            Zafira imagine un luxe contemporain inspiré par la richesse des esthétiques africaines :
+            silhouettes fortes, matières nobles et identité visuelle raffinée.
+          </p>
+          <div class="hero-actions">
+            <a href="#collections" class="btn btn-primary">Découvrir la collection</a>
+            <a href="#maison" class="btn btn-outline">Notre histoire</a>
+          </div>
+          <div class="hero-points">
+            <span>Édition limitée</span>
+            <span>Finitions premium</span>
+            <span>Expérience privée</span>
+          </div>
+        </div>
+
+        <div class="hero-visual reveal">
+          <div class="hero-box">
+            <div class="eyebrow" style="color:#fff; margin-bottom:8px;">Capsule 2026</div>
+            <strong style="display:block; font-size:1.1rem; margin-bottom:6px;">Experience African Luxury</strong>
+            <p style="color:rgba(255,255,255,0.82);">Des créations pensées pour durer et marquer les esprits.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="stats reveal">
+      <div class="container">
+        <div class="stats-grid">
+          <div class="stat"><strong>12</strong><span>Créations signatures</span></div>
+          <div class="stat"><strong>100%</strong><span>Vision premium</span></div>
+          <div class="stat"><strong>8</strong><span>Services exclusifs</span></div>
+          <div class="stat"><strong>24h</strong><span>Réponse atelier</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="maison">
+      <div class="container story-grid">
+        <div class="story-media reveal"></div>
+        <div class="story-copy reveal">
+          <span class="eyebrow">L'âme de la maison</span>
+          <h2>Un luxe identitaire, sensible et intemporel.</h2>
+          <p>Zafira est née du désir de proposer une mode qui allie émotion, exigence et caractère.</p>
+          <p>Notre univers réinterprète les héritages africains avec une esthétique internationale, pure et moderne.</p>
+          <p>Chaque pièce est pensée comme une signature : rare, raffinée, assumée.</p>
+          <div class="values">
+            <div class="value"><h3>Exigence</h3><p>Une attention extrême portée aux matières, au tombé et à la finition.</p></div>
+            <div class="value"><h3>Identité</h3><p>Une direction artistique forte, inspirée par une élégance africaine contemporaine.</p></div>
+            <div class="value"><h3>Rareté</h3><p>Des capsules limitées, conçues pour préserver le caractère exclusif de la maison.</p></div>
+            <div class="value"><h3>Émotion</h3><p>Une expérience immersive, de la première visite jusqu'au produit final.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section soft" id="collections">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <span class="eyebrow">Collections signatures</span>
+            <h2>Un vestiaire haut de gamme pour sublimer chaque présence.</h2>
+          </div>
+          <p>Filtre les catégories et découvre les pièces phares de l'univers Zafira.</p>
+        </div>
+
+        <div class="toolbar reveal">
+          <div class="filters">
+            <button class="filter-btn active" data-filter="all">Tout</button>
+            <button class="filter-btn" data-filter="robe">Robes</button>
+            <button class="filter-btn" data-filter="sac">Sacs</button>
+            <button class="filter-btn" data-filter="couture">Couture</button>
+            <button class="filter-btn" data-filter="homme">Homme</button>
+            <button class="filter-btn" data-filter="accessoire">Accessoires</button>
+          </div>
+        </div>
+
+        <div class="product-grid" id="productGrid">
+          <article class="product-card reveal" data-category="robe couture" data-title="Robe Impériale" data-price="1290" data-image="images/robe-imperiale.jpg">
+            <div class="product-image img-robe"><span class="badge">Nouveau</span></div>
+            <div class="product-body">
+              <div class="product-top"><div><small>Robe couture</small><h3>Robe Impériale</h3></div><div class="product-price">1 290 €</div></div>
+              <p>Silhouette sculpturale et tombé fluide pour une allure de cérémonie.</p>
+              <div class="chips"><span class="chip">Atelier</span><span class="chip">Noir</span><span class="chip">Édition limitée</span></div>
+              <div class="product-actions"><button class="btn btn-primary open-product">Découvrir</button><button class="btn btn-outline add-to-cart">Ajouter</button></div>
+            </div>
+          </article>
+
+          <article class="product-card reveal" data-category="sac accessoire" data-title="Sac Héritage" data-price="890" data-image="images/sac-heritage.jpg">
+            <div class="product-image img-sac"><span class="badge">Iconique</span></div>
+            <div class="product-body">
+              <div class="product-top"><div><small>Sac signature</small><h3>Sac Héritage</h3></div><div class="product-price">890 €</div></div>
+              <p>Une pièce structurée, chic et intemporelle, pensée pour durer.</p>
+              <div class="chips"><span class="chip">Cuir</span><span class="chip">Doré</span><span class="chip">Main & épaule</span></div>
+              <div class="product-actions"><button class="btn btn-primary open-product">Découvrir</button><button class="btn btn-outline add-to-cart">Ajouter</button></div>
+            </div>
+          </article>
+
+          <article class="product-card reveal" data-category="couture" data-title="Set Prestige" data-price="1750" data-image="images/set-prestige.jpg">
+            <div class="product-image img-set"><span class="badge">Capsule</span></div>
+            <div class="product-body">
+              <div class="product-top"><div><small>Ensemble couture</small><h3>Set Prestige</h3></div><div class="product-price">1 750 €</div></div>
+              <p>Une proposition couture forte pour une silhouette exceptionnelle.</p>
+              <div class="chips"><span class="chip">Broderie</span><span class="chip">Numéroté</span><span class="chip">Atelier</span></div>
+              <div class="product-actions"><button class="btn btn-primary open-product">Découvrir</button><button class="btn btn-outline add-to-cart">Ajouter</button></div>
+            </div>
+          </article>
+
+          <article class="product-card reveal" data-category="homme couture" data-title="Blazer Noir Héritage" data-price="980" data-image="images/blazer-noir.jpg">
+            <div class="product-image img-blazer"><span class="badge">Homme</span></div>
+            <div class="product-body">
+              <div class="product-top"><div><small>Homme</small><h3>Blazer Noir Héritage</h3></div><div class="product-price">980 €</div></div>
+              <p>Une ligne nette et une élégance construite pour le vestiaire masculin premium.</p>
+              <div class="chips"><span class="chip">Laine</span><span class="chip">Noir profond</span><span class="chip">Premium</span></div>
+              <div class="product-actions"><button class="btn btn-primary open-product">Découvrir</button><button class="btn btn-outline add-to-cart">Ajouter</button></div>
+            </div>
+          </article>
+
+          <article class="product-card reveal" data-category="robe couture" data-title="Kaftan Lumière" data-price="1140" data-image="images/kaftan-lumiere.jpg">
+            <div class="product-image img-kaftan"><span class="badge">Cérémonie</span></div>
+            <div class="product-body">
+              <div class="product-top"><div><small>Kaftan</small><h3>Kaftan Lumière</h3></div><div class="product-price">1 140 €</div></div>
+              <p>Fluidité solaire, volume élégant et finitions lumineuses.</p>
+              <div class="chips"><span class="chip">Champagne</span><span class="chip">Broderie</span><span class="chip">Atelier</span></div>
+              <div class="product-actions"><button class="btn btn-primary open-product">Découvrir</button><button class="btn btn-outline add-to-cart">Ajouter</button></div>
+            </div>
+          </article>
+
+          <article class="product-card reveal" data-category="accessoire sac" data-title="Minaudière Onyx" data-price="620" data-image="images/minaudiere-onyx.jpg">
+            <div class="product-image img-minaudiere"><span class="badge">Soirée</span></div>
+            <div class="product-body">
+              <div class="product-top"><div><small>Accessoire</small><h3>Minaudière Onyx</h3></div><div class="product-price">620 €</div></div>
+              <p>Compacte, précieuse et sophistiquée, pensée comme un bijou de silhouette.</p>
+              <div class="chips"><span class="chip">Onyx</span><span class="chip">Bijou</span><span class="chip">Disponible</span></div>
+              <div class="product-actions"><button class="btn btn-primary open-product">Découvrir</button><button class="btn btn-outline add-to-cart">Ajouter</button></div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="lookbook">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <span class="eyebrow">Lookbook</span>
+            <h2>Une direction artistique forte, entre douceur, force et lumière.</h2>
+          </div>
+          <p>Des images pensées comme des tableaux, pour prolonger l'expérience visuelle de la maison.</p>
+        </div>
+
+        <div class="lookbook-grid">
+          <div class="lookbook-main reveal">
+            <div class="lookbook-card lookbook-large">
+              <div class="lookbook-text"><h3>Capsule Nocturne</h3><p>Des volumes calmes, sculptés et intenses.</p></div>
+            </div>
+          </div>
+          <div class="lookbook-side">
+            <div class="lookbook-card lookbook-one reveal"><div class="lookbook-text"><h3>Textures</h3><p>Le luxe se lit dans la matière.</p></div></div>
+            <div class="lookbook-card lookbook-two reveal"><div class="lookbook-text"><h3>Présence</h3><p>Une allure rare, jamais forcée.</p></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section soft" id="journal">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <span class="eyebrow">Journal Zafira</span>
+            <h2>L'univers de la maison à travers les inspirations, les matières et l'art de vivre.</h2>
+          </div>
+          <p>Explore nos histoires éditoriales et l'approche créative qui nourrit la marque.</p>
+        </div>
+
+        <div class="journal-grid">
+          <article class="journal-card reveal">
+            <div class="journal-image j1"></div>
+            <div class="journal-body"><h3>Le luxe selon Zafira</h3><p>Une approche sobre, puissante et émotionnelle du style contemporain.</p><a href="#contact" class="btn btn-outline">Lire plus</a></div>
+          </article>
+          <article class="journal-card reveal">
+            <div class="journal-image j2"></div>
+            <div class="journal-body"><h3>Matières & détails</h3><p>La finesse des textures donne de la profondeur à chaque création.</p><a href="#contact" class="btn btn-outline">Lire plus</a></div>
+          </article>
+          <article class="journal-card reveal">
+            <div class="journal-image j3"></div>
+            <div class="journal-body"><h3>Une signature visuelle forte</h3><p>Du logo à la silhouette, tout prolonge l'identité de la maison.</p><a href="#contact" class="btn btn-outline">Lire plus</a></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section dark" id="services">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <span class="eyebrow">Services exclusifs</span>
+            <h2>Une expérience premium pensée pour prolonger l'émotion de la maison.</h2>
+          </div>
+          <p>Conseil privé, personnalisation, capsules réservées et accompagnement sur rendez-vous.</p>
+        </div>
+
+        <div class="services-grid">
+          <div class="service reveal"><h3>Consultation privée</h3><p>Un échange personnalisé pour construire une sélection alignée à votre style.</p></div>
+          <div class="service reveal"><h3>Retouches premium</h3><p>Des ajustements précis pour un tombé impeccable et une silhouette parfaite.</p></div>
+          <div class="service reveal"><h3>Capsules réservées</h3><p>L'accès prioritaire à certaines pièces avant leur lancement public.</p></div>
+          <div class="service reveal"><h3>Suivi client</h3><p>Une relation fluide et haut de gamme avant, pendant et après l'achat.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="faq">
+      <div class="container faq-grid">
+        <div class="faq-intro reveal">
+          <span class="eyebrow">FAQ</span>
+          <h2>Questions fréquentes</h2>
+          <p>Retrouve ici les réponses aux questions les plus courantes concernant Zafira.</p>
+          <a href="#contact" class="btn btn-primary">Contacter la maison</a>
+        </div>
+
+        <div class="faq-list reveal">
+          <div class="faq-item">
+            <button class="faq-question">Les pièces sont-elles disponibles immédiatement ? <span>+</span></button>
+            <div class="faq-answer"><p>Certaines sont disponibles immédiatement, d'autres sont proposées sur commande ou en capsule limitée.</p></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question">Peut-on demander une personnalisation ? <span>+</span></button>
+            <div class="faq-answer"><p>Oui, selon la pièce choisie, certaines finitions, tailles ou détails peuvent être adaptés.</p></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question">Travaillez-vous sur rendez-vous ? <span>+</span></button>
+            <div class="faq-answer"><p>Oui, la maison propose une expérience plus intime et qualitative sur rendez-vous.</p></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question">Comment entretenir les pièces ? <span>+</span></button>
+            <div class="faq-answer"><p>Chaque création est accompagnée de conseils d'entretien adaptés à sa matière et à sa finition.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="newsletter-box reveal">
+          <span class="eyebrow" style="color:#fff;">Newsletter privée</span>
+          <h2>Recevez les lancements exclusifs, nouveautés et invitations privées de la maison.</h2>
+          <p>Entrez dans l'univers Zafira et soyez informé avant tout le monde des nouvelles capsules.</p>
+          <form class="newsletter-form" id="newsletterForm">
+            <input type="email" id="newsletterEmail" placeholder="Votre adresse e-mail" required />
+            <button type="submit" class="btn btn-gold">S'inscrire</button>
+          </form>
+          <div class="newsletter-message" id="newsletterMessage"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section soft" id="contact">
+      <div class="container contact-grid">
+        <div class="contact-card reveal">
+          <span class="eyebrow">Contact</span>
+          <h2>Parlons de votre expérience Zafira.</h2>
+          <p>Pour une commande, une prise de rendez-vous ou une demande d'information, écrivez-nous.</p>
+          <div class="contact-list">
+            <div class="contact-item"><strong>Email</strong><span>contact@zafira.com</span></div>
+            <div class="contact-item"><strong>Téléphone</strong><span>+237 6 00 00 00 00</span></div>
+            <div class="contact-item"><strong>Instagram</strong><span>@zafira.maison</span></div>
+            <div class="contact-item"><strong>Rendez-vous</strong><span>Sur demande, en ligne ou en privé</span></div>
+          </div>
+          <div class="socials">
+            <a href="#">Instagram</a>
+            <a href="#">Pinterest</a>
+            <a href="#">TikTok</a>
+          </div>
+        </div>
+
+        <div class="contact-form-wrap reveal">
+          <form class="contact-form" id="contactForm">
+            <div class="form-row">
+              <div class="input-group"><label>Prénom</label><input type="text" id="firstName" required /></div>
+              <div class="input-group"><label>Nom</label><input type="text" id="lastName" required /></div>
+            </div>
+            <div class="form-row">
+              <div class="input-group"><label>Email</label><input type="email" id="email" required /></div>
+              <div class="input-group"><label>Téléphone</label><input type="text" id="phone" /></div>
+            </div>
+            <div class="input-group"><label>Message</label><textarea id="message" required></textarea></div>
+            <button type="submit" class="btn btn-primary">Envoyer la demande</button>
+            <div class="form-message" id="formMessage"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <img src="zafira-logo.png" alt="Logo Zafira" class="logo-img" style="width:160px;" />
+          <p style="margin-top:16px;">Une maison qui fait dialoguer luxe contemporain, émotion et inspiration africaine.</p>
+        </div>
+        <div>
+          <h3 style="margin-bottom:14px; font-size:1.1rem;">Navigation</h3>
+          <div class="footer-links">
+            <a href="#home">Accueil</a>
+            <a href="#maison">Maison</a>
+            <a href="#collections">Collections</a>
+            <a href="#contact">Contact</a>
+          </div>
+        </div>
+        <div>
+          <h3 style="margin-bottom:14px; font-size:1.1rem;">Services</h3>
+          <div class="footer-links">
+            <a href="#services">Consultation privée</a>
+            <a href="#services">Retouches premium</a>
+            <a href="#services">Capsules réservées</a>
+            <a href="#services">Suivi client</a>
+          </div>
+        </div>
+        <div>
+          <h3 style="margin-bottom:14px; font-size:1.1rem;">Contact</h3>
+          <div class="footer-links">
+            <a href="mailto:contact@zafira.com">contact@zafira.com</a>
+            <a href="#">+237 6 00 00 00 00</a>
+            <a href="#">@zafira.maison</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 Zafira. Tous droits réservés.</span>
+        <span>Experience African Luxury</span>
+      </div>
+    </div>
+  </footer>
+
+  <div class="modal" id="productModal">
+    <div class="modal-card">
+      <div class="modal-media" id="modalMedia"></div>
+      <div class="modal-content">
+        <button class="close-modal" id="closeModal">✕</button>
+        <div class="eyebrow">Vue produit</div>
+        <h2 id="modalTitle" style="font-size:2rem; margin-bottom:12px;"></h2>
+        <p id="modalPrice" style="font-weight:700; color:var(--gold); margin-bottom:14px;"></p>
+        <p>Cette création Zafira associe élégance contemporaine, matières choisies et finitions haut de gamme.</p>
+        <div class="chips" style="margin:16px 0 24px;"><span class="chip">Édition limitée</span><span class="chip">Atelier</span><span class="chip">Premium</span></div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <button class="btn btn-primary add-to-cart" id="modalAdd">Ajouter au panier</button>
+          <a href="#contact" class="btn btn-outline">Prendre rendez-vous</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">Produit ajouté au panier.</div>
+
+  <script>
+    const menuToggle = document.getElementById('menuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const productCards = document.querySelectorAll('.product-card');
+    const openButtons = document.querySelectorAll('.open-product');
+    const addButtons = document.querySelectorAll('.add-to-cart');
+    const productModal = document.getElementById('productModal');
+    const closeModal = document.getElementById('closeModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalPrice = document.getElementById('modalPrice');
+    const modalMedia = document.getElementById('modalMedia');
+    const modalAdd = document.getElementById('modalAdd');
+    const toast = document.getElementById('toast');
+    const newsletterForm = document.getElementById('newsletterForm');
+    const newsletterEmail = document.getElementById('newsletterEmail');
+    const newsletterMessage = document.getElementById('newsletterMessage');
+    const contactForm = document.getElementById('contactForm');
+    const formMessage = document.getElementById('formMessage');
+    let currentProduct = '';
+
+    menuToggle.addEventListener('click', () => {
+      mobileMenu.classList.toggle('open');
+    });
+
+    document.querySelectorAll('.mobile-menu a').forEach(link => {
+      link.addEventListener('click', () => mobileMenu.classList.remove('open'));
+    });
+
+    filterButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        filterButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+        const filter = button.dataset.filter;
+
+        productCards.forEach(card => {
+          const categories = card.dataset.category;
+          if (filter === 'all' || categories.includes(filter)) {
+            card.classList.remove('hidden');
+          } else {
+            card.classList.add('hidden');
+          }
+        });
+      });
+    });
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2200);
+    }
+
+    addButtons.forEach(button => {
+      button.addEventListener('click', (e) => {
+        const card = e.target.closest('.product-card');
+        const name = card ? card.dataset.title : currentProduct;
+        showToast(name + ' ajouté au panier.');
+      });
+    });
+
+    openButtons.forEach(button => {
+      button.addEventListener('click', (e) => {
+        const card = e.target.closest('.product-card');
+        currentProduct = card.dataset.title;
+        modalTitle.textContent = card.dataset.title;
+        modalPrice.textContent = card.dataset.price + ' €';
+        modalMedia.style.backgroundImage = `url('${card.dataset.image}')`;
+        productModal.classList.add('show');
+      });
+    });
+
+    closeModal.addEventListener('click', () => productModal.classList.remove('show'));
+    productModal.addEventListener('click', (e) => {
+      if (e.target === productModal) productModal.classList.remove('show');
+    });
+
+    modalAdd.addEventListener('click', () => {
+      showToast(currentProduct + ' ajouté au panier.');
+      productModal.classList.remove('show');
+    });
+
+    newsletterForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (newsletterEmail.value.trim() === '') return;
+      newsletterMessage.textContent = 'Merci, vous êtes bien inscrit(e) à la newsletter Zafira.';
+      newsletterForm.reset();
+    });
+
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      formMessage.textContent = 'Votre demande a bien été envoyée. La maison Zafira vous répondra bientôt.';
+      contactForm.reset();
+    });
+
+    document.querySelectorAll('.faq-question').forEach(button => {
+      button.addEventListener('click', () => {
+        const item = button.parentElement;
+        const answer = item.querySelector('.faq-answer');
+        const isOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item').forEach(faq => {
+          faq.classList.remove('open');
+          faq.querySelector('.faq-answer').style.maxHeight = null;
+        });
+        if (!isOpen) {
+          item.classList.add('open');
+          answer.style.maxHeight = answer.scrollHeight + 'px';
+        }
+      });
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="#home" class="logo">
+      <img src="zafira-logo.png" alt="zafira-logo" class="zafira-logo" />
+    </a>
+  </div>
+</header>
+</html>
